@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krasnodar RP — правила для своих</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0c0f17;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            color: #eef2ff;
+            padding: 0;
+            line-height: 1.45;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+        }
+
+        /* шапка */
+        .header {
+            background: linear-gradient(135deg, #10131f, #07090f);
+            border-radius: 32px;
+            padding: 24px 32px;
+            margin-bottom: 32px;
+            border: 1px solid #2a2f3f;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #8a9eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        .header h1 i {
+            background: none;
+            -webkit-background-clip: unset;
+            color: #5f7ee0;
+            margin-right: 10px;
+        }
+        .badges {
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: #1a1f2c;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #b9c3ff;
+        }
+
+        /* поиск */
+        .search-wrap {
+            margin-bottom: 28px;
+        }
+        .search-box {
+            background: #121724;
+            border-radius: 60px;
+            padding: 8px 20px;
+            border: 1px solid #2a3142;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 1rem;
+            color: white;
+            outline: none;
+        }
+        .search-box input::placeholder {
+            color: #5b6e8c;
+        }
+
+        /* навигация (кнопки-разделы) */
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+            background: #0a0d14;
+            padding: 12px 16px;
+            border-radius: 60px;
+            justify-content: center;
+        }
+        .nav-btn {
+            background: #131a24;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #cfdef5;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-btn i {
+            font-size: 1rem;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: #2a3a54;
+            color: white;
+            box-shadow: 0 0 8px #3f5e9e;
+        }
+
+        /* карточки разделов */
+        .rule-section {
+            display: none;
+            background: #0f1320;
+            border-radius: 28px;
+            border: 1px solid #252c3b;
+            overflow: hidden;
+            margin-bottom: 40px;
+            transition: 0.2s;
+        }
+        .rule-section.active {
+            display: block;
+        }
+        .section-title {
+            background: #11161f;
+            padding: 18px 28px;
+            border-bottom: 1px solid #293040;
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title i {
+            font-size: 1.8rem;
+            color: #6d8cff;
+        }
+        .section-content {
+            padding: 24px 28px;
+        }
+
+        /* таблицы — как в оригинале, но удобнее для детей */
+        .punish-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background: #0b0f18;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .punish-table th {
+            background: #1a212f;
+            color: #d6e3ff;
+            font-weight: 600;
+            padding: 12px 10px;
+            border: 1px solid #2a3245;
+        }
+        .punish-table td {
+            border: 1px solid #262e42;
+            padding: 10px 12px;
+            vertical-align: top;
+        }
+        .badge-punish {
+            display: inline-block;
+            background: #1f2a3e;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 6px;
+            margin-top: 4px;
+        }
+        .badge-warn { background: #b45f2b; color: #ffddbb; }
+        .badge-mute { background: #3a6b8c; }
+        .badge-ban { background: #8b3c3c; }
+        .badge-kick { background: #7a4c2c; }
+
+        /* текстовые блоки */
+        .rule-item {
+            margin-bottom: 24px;
+            border-left: 3px solid #4f6ed4;
+            padding-left: 18px;
+        }
+        .rule-item strong {
+            color: #ffd966;
+            font-size: 1rem;
+        }
+        .tooltip {
+            border-bottom: 1px dashed #8aa0ff;
+            cursor: help;
+        }
+        .note {
+            background: #1a1f2e;
+            padding: 14px 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #f5bc70;
+        }
+
+        footer {
+            text-align: center;
+            padding: 28px;
+            border-top: 1px solid #212736;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #7f8daa;
+        }
+        @media (max-width: 700px) {
+            .section-content { padding: 16px; }
+            .punish-table th, .punish-table td { font-size: 0.75rem; padding: 8px 6px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1><i class="fab fa-discord"></i> Krasnodar RP | Правила проекта</h1>
+        <div class="badges">
+            <span class="badge"><i class="fas fa-check-circle"></i> Вступая на сервер — ты соглашаешься</span>
+            <span class="badge"><i class="fas fa-shield-alt"></i> Играем честно и с уважением</span>
+            <span class="badge"><i class="fas fa-users"></i> Для игроков 12+</span>
+        </div>
+    </div>
+
+    <div class="search-wrap">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Найти правило: DM, ограбление, лидер, мути, бан...">
+        </div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <button class="nav-btn" data-section="discord"><i class="fab fa-discord"></i> Discord</button>
+        <button class="nav-btn" data-section="game"><i class="fas fa-gamepad"></i> Игровые правила</button>
+        <button class="nav-btn" data-section="chats"><i class="fas fa-comment"></i> Чаты / Голос</button>
+        <button class="nav-btn" data-section="robbery"><i class="fas fa-mask"></i> Ограбления</button>
+        <button class="nav-btn" data-section="gov"><i class="fas fa-building"></i> Гос.организации</button>
+        <button class="nav-btn" data-section="criminal"><i class="fas fa-skull"></i> Криминал</button>
+        <button class="nav-btn" data-section="leaders"><i class="fas fa-crown"></i> Лидеры</button>
+        <button class="nav-btn" data-section="admin"><i class="fas fa-hammer"></i> Администрация</button>
+    </div>
+
+    <!-- РАЗДЕЛ 1: ДИСКОРД (с таблицей) -->
+    <div id="discord" class="rule-section">
+        <div class="section-title"><i class="fab fa-discord"></i> 1. Правила Discord-сервера</div>
+        <div class="section-content">
+            <p>📌 <strong>Общие положения:</strong> Заходя на сервер, ты принимаешь правила. Незнание не освобождает от наказания. Запрещён доксинг (слив личных данных), твинки, обход блокировок. Нарушения в Discord могут повлиять на игру.</p>
+            <table class="punish-table">
+                <thead><tr><th>Нарушение</th><th>Описание</th><th>Наказание</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Мат / брань</td><td>Разрешён редкий неоскорбительный мат. Намеренная грязная ругань — запрещена.</td><td>Предупреждение → Мут 1–2ч → Кик/Бан</td></tr>
+                    <tr><td>Спам / флуд</td><td>Повторяющиеся сообщения, бессмысленный текст.</td><td>Предупреждение → Мут 1–2ч → Кик</td></tr>
+                    <tr><td>Смайло-флуд</td><td>Очень много эмодзи подряд.</td><td>Предупреждение → Мут 30м → Мут 24ч → Кик</td></tr>
+                    <tr><td>CapsLock (>1/3 текста)</td><td>КРИЧАТЬ или жирный шрифт.</td><td>Предупреждение → Мут 30м → Мут 24ч → Кик</td></tr>
+                    <tr><td>Обсуждение админов</td><td>Писать в общий чат «админ плохой», оспаривать решения.</td><td>Предупреждение → Мут 24ч → Кик → Бан</td></tr>
+                    <tr><td>Транслит / искажение речи</td><td>«privet kak dela», чрезмерный сленг.</td><td>Предупреждение → Мут 30–60м → Мут 24ч → Кик</td></tr>
+                    <tr><td>Шок-контент (18+, жесть)</td><td>Насилие, порно, экстремизм.</td><td>Мут 24ч → Перманентный бан</td></tr>
+                    <tr><td>Оскорбления / дискриминация</td><td>Оскорблять участников, расизм, гомофобия.</td><td>Мут 1–6ч → Мут 24ч → Кик/Бан</td></tr>
+                </tbody>
+            </table>
+            <div class="rule-item"><strong>🎤 Голосовые каналы:</strong> запрещены крики, шумы, музыка без согласия, спам подключениями. Нужен рабочий микрофон или Push-to-Talk.</div>
+            <div class="rule-item"><strong>🔗 Ссылки:</strong> никаких фишингов, читов, рефералов. Сторонние дискорд-серверы — только с разрешения админа. Наказания от предупреждения до бана.</div>
+            <div class="note"><i class="fas fa-database"></i> Слив закрытой информации (скрины админки, приватные баги) → Чёрный список сервера/проекта.</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 2: ИГРОВЫЕ ПРАВИЛА (DM, FearRP и тд) -->
+    <div id="game" class="rule-section">
+        <div class="section-title"><i class="fas fa-car-crash"></i> 2. Игровой процесс (In‑Game)</div>
+        <div class="section-content">
+            <table class="punish-table">
+                <tr><th>Термин</th><th>Что это?</th><th>Наказание</th></tr>
+                <tr><td>NRP (NonRP)</td><td>Неадекватное поведение (бегать по крышам, игнорировать реальность). Если видишь NRP — игнорируй и пиши репорт.</td><td>Бан 5ч – 2 дня</td></tr>
+                <tr><td>DM (Deathmatch)</td><td>Убивать без игровой причины, просто так.</td><td>Бан 1 день</td></tr>
+                <tr><td>DriveBy (DB)</td><td>Таран без причины.</td><td>Бан 2 дня</td></tr>
+                <tr><td>SpawnKemp</td><td>Ждать игроков на спавне (у полиции, больницы).</td><td>Бан 2 дня</td></tr>
+                <tr><td>BugAbuse</td><td>Использовать баги текстур, анимаций для выгоды.</td><td>Бан 5 дней</td></tr>
+                <tr><td>FearRP</td><td>Ценить жизнь: если 3 человека с пушками – не беги в атаку, подчиняйся.</td><td>Бан 2 дня</td></tr>
+                <tr><td>LeaveRP</td><td>Выйти из игры во время ограбления / ареста.</td><td>Бан 2 дня</td></tr>
+                <tr><td>Powergaming (PG)</td><td>Сверхспособности (кулаками против автомата).</td><td>Варн → Бан 2 дня</td></tr>
+                <tr><td>Revenge Kill (RK)</td><td>Вернуться и убить обидчика после своей смерти.</td><td>Бан 2 дня</td></tr>
+                <tr><td>FreeTaser / FreeCuff</td><td>Тайзерить или надевать наручники без причины.</td><td>Варн → Бан 2-5 дней</td></tr>
+            </table>
+            <div class="rule-item"><strong>🚗 Транспорт:</strong> на скутере нельзя уходить от погони, если ты в розыске. Полиция использует шипы только по делу.</div>
+            <div class="rule-item"><strong>🟢 Зелёные зоны (ЗЗ):</strong> полиция, больница, тюнинг, ADAC. Там нельзя убивать и похищать! Нарушение = бан 2 дня (при рейде – перманент).</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 3: ЧАТЫ -->
+    <div id="chats" class="rule-section">
+        <div class="section-title"><i class="fas fa-comment-dots"></i> 3. Текстовые и голосовые чаты</div>
+        <div class="section-content">
+            <table class="punish-table">
+                <tr><th>Нарушение</th><th>Объяснение</th><th>Санкция</th></tr>
+                <tr><td>Метагейминг (MG)</td><td>Использовать информацию из OOC (например, из Дискорда) в игре.</td><td>Бан 2 дня</td></tr>
+                <tr><td>ООС-мат / завуалированный мат</td><td>Ругаться в чате или заменять буквы символами.</td><td>Бан 3–7 дней</td></tr>
+                <tr><td>Оскорбление родных</td><td>Любое упоминание семьи в оскорбительном ключе.</td><td>Бан 30 дней</td></tr>
+                <tr><td>Разжигание (нацизм, расизм)</td><td>Оскорблять по национальности, религии.</td><td>Бан 3 дня</td></tr>
+                <tr><td>Реклама (серверов, читов)</td><td>Звать на другие проекты или продавать аккаунты.</td><td>Перманентный бан</td></tr>
+                <tr><td>IC-мат без причины</td><td>Материться в игре просто так, а не в рамках эмоции.</td><td>Бан 1–3 дня</td></tr>
+                <tr><td>Голосовой чат: крики / музыка</td><td>Шуметь, перебивать, включать Soundpad без согласия.</td><td>Варн → Бан 5ч–2 дня</td></tr>
+            </table>
+            <div class="note"><i class="fas fa-phone-alt"></i> <strong>Рация и смартфон:</strong> писать в рацию MG-информацию запрещено. Общение по телефону = IC-чат, правила те же.</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 4: ОГРАБЛЕНИЯ И ПОХИЩЕНИЯ -->
+    <div id="robbery" class="rule-section">
+        <div class="section-title"><i class="fas fa-hand-holding-usd"></i> 4. Ограбления и похищения</div>
+        <div class="section-content">
+            <div class="rule-item"><strong>📌 Общие лимиты:</strong> Не больше 3 жертв за раз. Кулдаун между ограблениями – 15 минут, между похищениями – 30 минут. Нельзя грабить одного человека несколько раз подряд.</div>
+            <div class="rule-item"><strong>⚔️ Правило силы:</strong> нападающих должно быть минимум в 2 раза больше, чем жертв (2:1). Без оружия на дело не ходить.</div>
+            <div class="rule-item"><strong>💰 Похищения:</strong> максимум выкупа 24.000$. Нужно 3+ участника и закрытая машина. Переговорщика (полицейского) убивать нельзя. Отпустить заложника в течение 5 минут после выкупа.</div>
+            <div class="rule-item"><strong>🚫 Запрещено:</strong> унижать жертву, бросать в глухом месте, грабить бронированный транспорт (БТР, инкассация).</div>
+            <div class="note">Наказание за нарушения этого раздела – бан до 5 дней (решает админ).</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 5: ГОСУДАРСТВЕННЫЕ ОРГАНИЗАЦИИ (добавлен) -->
+    <div id="gov" class="rule-section">
+        <div class="section-title"><i class="fas fa-landmark"></i> 5. Правила для гос. организаций</div>
+        <div class="section-content">
+            <div class="rule-item"><strong>👮 Полиция:</strong> нельзя сажать в тюрьму без суда (No Court). Нелья использовать радар (No Radar). Блокпосты – с разрешения старшего админа. Тайзер и наручники – только по делу.</div>
+            <div class="rule-item"><strong>🚑 Медики / ADAC / Пожарные:</strong> обязаны помогать всем, нельзя игнорировать вызовы. Спецсигнал – только на выезде по заданию.</div>
+            <div class="rule-item"><strong>🚫 Мультифракция:</strong> нельзя быть одновременно в полиции и банде, или в двух гос. структурах. Наказание – кик из фракции, повтор – бан.</div>
+            <div class="rule-item"><strong>🤝 Тимминг:</strong> гос. сотрудникам запрещено помогать знакомым преступникам в обход правил .</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 6: КРИМИНАЛЬНЫЕ ОРГАНИЗАЦИИ -->
+    <div id="criminal" class="rule-section">
+        <div class="section-title"><i class="fas fa-skull"></i> 6. Криминальным группировкам</div>
+        <div class="section-content">
+            <div class="rule-item"><strong>🎭 Дресс-код:</strong> Группа ОПГ должна быть в одноцветным верхом.</div>
+            <div class="rule-item"><strong>⏳ Захват зданий:</strong> можно 1 раз в 3 дня и только после согласования с криминал-куратором.</div>
+            <div class="rule-item"><strong>💣 Нападения:</strong> перед атакой на полицию должна быть RP-причина, а не просто «погонять». При штурме базы – не использовать баги анимаций.</div>
+            <div class="rule-item"><strong>🚚 Конвои:</strong> нападать на гос. конвой разрешено, но численность нападающих не меньше, чем у охраны.</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 7: ЛИДЕРЫ -->
+    <div id="leaders" class="rule-section">
+        <div class="section-title"><i class="fas fa-crown"></i> 7. Лидеры фракций</div>
+        <div class="section-content">
+            <div class="rule-item"><strong>📅 Срок лидера:</strong> 25 дней. Онлайн минимум 2 часа в день. Отвечает за всех своих.</div>
+            <div class="rule-item"><strong>📁 Discord фракции:</strong> лидер обязан сделать каналы: жалобы, отчётность, ЧС фракции, устав, обучение. Ежедневно модерировать.</div>
+            <div class="rule-item"><strong>⚠️ Запрещено:</strong> расформировывать фракцию без разрешения, менять ник во время срока, занимать посты на других RP-проектах.</div>
+            <div class="rule-item"><strong>👥 Заместители:</strong> не больше 3 человек. Можно передать пост только с согласия главного следящего.</div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ 8: АДМИНИСТРАЦИЯ -->
+    <div id="admin" class="rule-section">
+        <div class="section-title"><i class="fas fa-gavel"></i> 8. Администраторы</div>
+        <div class="section-content">
+            <div class="rule-item"><strong>🕒 Нормы:</strong> играть 2 часа в день + 10 репортов. За халатность и игнорирование – выговоры.</div>
+            <div class="rule-item"><strong>🚫 Запрещено админам:</strong> использовать команды в личных целях (Admin Abuse), закрывать глаза на друзей (блат), оскорблять игроков, давать себе оружие в RP.</div>
+            <div class="rule-item"><strong>🎥 Видеофиксация:</strong> каждый бан или мут нужно снимать на видео и хранить 7 дней.</div>
+            <div class="rule-item"><strong>📊 Система выговоров:</strong> белый (мелкое), красный (грубое), чёрный (слив данных). 6 белых = снятие, 3 красных = снятие, 2 чёрных = чёрный список администрации.</div>
+        </div>
+    </div>
+
+    <footer>
+        <i class="far fa-copyright"></i> Krasnodar RP — правила написаны понятным языком для всех игроков. Нарушаешь — получаешь наказание. Вопросы в тикеты Discord.<br>
+        <span style="font-size:0.7rem;">Последнее обновление: актуальная версия. Незнание правил не освобождает от бана.</span>
+    </footer>
+</div>
+
+<script>
+    // переключение разделов + поиск
+    const sections = document.querySelectorAll('.rule-section');
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const searchInput = document.getElementById('searchInput');
+
+    function showSection(sectionId) {
+        sections.forEach(section => {
+            if (section.id === sectionId) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+        navBtns.forEach(btn => {
+            if (btn.dataset.section === sectionId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const sectionId = btn.dataset.section;
+            showSection(sectionId);
+            searchInput.value = ''; // очищаем поиск при ручном переключении
+            // убираем подсветку текста
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+        });
+    });
+
+    // Поиск (простой по тексту)
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim().toLowerCase();
+        if (query === '') {
+            // показать первый раздел по умолчанию (Discord)
+            showSection('discord');
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+            return;
+        }
+        // ищем в каждом разделе
+        let foundAny = false;
+        sections.forEach(section => {
+            const text = section.innerText.toLowerCase();
+            if (text.includes(query)) {
+                section.classList.add('active');
+                if (!foundAny) {
+                    foundAny = true;
+                    // подсветка (небольшая)
+                    highlightText(section, query);
+                }
+            } else {
+                section.classList.remove('active');
+            }
+        });
+        if (!foundAny) {
+            // если ничего не нашли, показываем первый и сообщаем
+            showSection('discord');
+            alert('Ничего не найдено, попробуй короче слово (например "DM", "бан", "лидер")');
+        }
+    });
+
+    function highlightText(section, query) {
+        // убираем старые подсветки
+        section.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+        const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, null, false);
+        const nodesToReplace = [];
+        while(walker.nextNode()) {
+            const node = walker.currentNode;
+            if(node.nodeType === Node.TEXT_NODE && node.textContent.toLowerCase().includes(query)) {
+                nodesToReplace.push(node);
+            }
+        }
+        nodesToReplace.forEach(node => {
+            const span = document.createElement('span');
+            span.innerHTML = node.textContent.replace(new RegExp(`(${query})`, 'gi'), '<mark class="highlight" style="background:#f5bc70;color:#000;border-radius:4px;">$1</mark>');
+            node.parentNode.replaceChild(span, node);
+        });
+    }
+
+    // по умолчанию показываем Discord
+    showSection('discord');
+</script>
+</body>
+</html>
